@@ -1,8 +1,13 @@
 #include <stdio.h>
 
-
-int main (){
-
-
-    return 0;
-}
+main() {
+    FILE *fp;
+    fp = fopen("input", "r");
+    
+    
+    
+    
+    
+    
+    fclose(fp);
+return 0; }
