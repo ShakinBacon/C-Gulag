@@ -1,6 +1,11 @@
 #include <stdio.h>
 
+
+
+
 int main (){
-printf ("you're in the gulag now");
-return 0;
+    int x;
+    scanf("%d", &x);
+    printf("%d", x);
+    return 0;
 }
