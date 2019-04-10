@@ -16,46 +16,69 @@ int main() {
     printf("%d %c %d\n", task, hash, key);      //debug code; printing instructions/key
     switch (task) { //prints the performed task and key for user clarity
         case 1: printf("Encrypting with rotation cipher using key: %d\n", key); 
+            while (!feof(fp)) { //fully functioning rotation cipher (key 0 >>> 26)
+                char tmp[10000] = {0};
+                fscanf(fp, "%c", &tmp[0]);
+                int n = tmp[0];
+                if (n > 64 && n < 91) {                //checks for capital letters
+                    if (key + n > 90) {                //if looping occurs
+                        tmp[0] = tmp[0] - (26-key);
+                        fprintf(fo, "%c", tmp[0]);
+                    } else {                           // if no looping occurs
+                        tmp[0] = tmp[0] + key;
+                        fprintf(fo, "%c", tmp[0]);   
+                    }
+                } else if (n > 96 && n < 123){         //checks for lower case letters
+                    if (n + key > 122) {               // if looping occurs
+                        tmp[0] = tmp[0] - (26-key);
+                        fprintf(fo, "%c", tmp[0]);
+                    } else {                           // if no looping occurs
+                        tmp[0] = tmp[0] + key;
+                        fprintf(fo, "%c", tmp[0]);
+                    }
+                } else {                               //accounts for non-letter characters
+                    fprintf(fo, "%c", tmp[0]);
+                }    
+                printf("%c", tmp[0]);
+            } 
             break;
         case 2: printf("Encrypting with substitution cipher using key: %d\n", key); 
             break;
         case 3: printf("Decrypting rotation cipher text using key: %d\n", key); 
-            break;
+            while (!feof(fp)) { //fully functioning rotation cipher dycripter
+                char tmp[10000] = {0};
+                fscanf(fp, "%c", &tmp[0]);
+                int n = tmp[0];
+                if (n > 64 && n < 91) {                //checks for capital letters
+                    if (n - key < 65) {                //if looping occurs
+                        tmp[0] = tmp[0] - (key-26);
+                        fprintf(fo, "%c", tmp[0]);
+                    } else {                           // if no looping occurs
+                        tmp[0] = tmp[0] - key;
+                        fprintf(fo, "%c", tmp[0]);   
+                    }
+                } else if (n > 96 && n < 123){         //checks for lower case letters
+                    if (n - key < 97) {               // if looping occurs
+                        tmp[0] = tmp[0] - (key-26);
+                        fprintf(fo, "%c", tmp[0]);
+                    } else {                           // if no looping occurs
+                        tmp[0] = tmp[0] - key;
+                        fprintf(fo, "%c", tmp[0]);
+                    }
+                } else {                               //accounts for non-letter characters
+                    fprintf(fo, "%c", tmp[0]);
+                }    
+                printf("%c", tmp[0]);
+            }
+            break; 
         case 4: printf("Decrypting substitution cipher text using key: %d\n", key); 
             break;
         default: printf("Unkown command %d\n", task);
     }
     
-    while (!feof(fp)) { //fully functioning rotation cipher prototype (key 0 >>> 26)
-        char tmp[0];
-        fscanf(fp, "%c", &tmp[0]);
-        int n = tmp[0];
-        if (n > 64 && n < 91) {                //checks for capital letters
-            if (key + n > 90) {                //if looping occurs
-                tmp[0] = tmp[0] - (26-key);
-                fprintf(fo, "%c", tmp[0]);
-            } else {                           // if no looping occurs
-                tmp[0] = tmp[0] + key;
-                fprintf(fo, "%c", tmp[0]);   
-            }
-        } else if (n > 96 && n < 123){         //checks for lower case letters
-            if (n + key > 122) {               // if looping occurs
-                tmp[0] = tmp[0] - (26-key);
-                fprintf(fo, "%c", tmp[0]);
-            } else {                           // if no looping occurs
-                tmp[0] = tmp[0] + key;
-                fprintf(fo, "%c", tmp[0]);
-            }
-        } else if (feof(fp) || n == 35){                  //stops code at last file item (the while condition does it wrong)
-            tmp[0] = 0;
-            fprintf(fo, "%c", tmp[0]);
-            break;
-        } else {                               //accounts for non-letter characters
-            fprintf(fo, "%c", tmp[0]);
-        }    
-        printf("%c", tmp[0]);
-    } 
+    
     fclose(fp);
+    fclose(fo);
 return 0; 
 }
 
