@@ -34,29 +34,24 @@ int main() {
             if (key + n > 90) {                //if looping occurs
                 tmp[0] = tmp[0] - (26-key);
                 fprintf(fo, "%c", tmp[0]);
-                
             } else {                           // if no looping occurs
                 tmp[0] = tmp[0] + key;
-                fprintf(fo, "%c", tmp[0]);
-                
+                fprintf(fo, "%c", tmp[0]);   
             }
-
         } else if (n > 96 && n < 123){         //checks for lower case letters
             if (n + key > 122) {               // if looping occurs
                 tmp[0] = tmp[0] - (26-key);
                 fprintf(fo, "%c", tmp[0]);
-                
             } else {                           // if no looping occurs
                 tmp[0] = tmp[0] + key;
                 fprintf(fo, "%c", tmp[0]);
-                
             }
-        } else if (feof(fp)){                  //stops code at last file item
+        } else if (feof(fp) || n == 35){                  //stops code at last file item (the while condition does it wrong)
             tmp[0] = 0;
             fprintf(fo, "%c", tmp[0]);
+            break;
         } else {                               //accounts for non-letter characters
             fprintf(fo, "%c", tmp[0]);
-            
         }    
         printf("%c", tmp[0]);
     } 
