@@ -30,10 +30,10 @@ int main() {
                     }
                 } else if (n > 96 && n < 123){         //checks for lower case letters
                     if (n + key > 122) {               // if looping occurs
-                        tmp[0] = tmp[0] - (26-key);
+                        tmp[0] = (tmp[0]-32) - (26-key);
                         fprintf(fo, "%c", tmp[0]);
                     } else {                           // if no looping occurs
-                        tmp[0] = tmp[0] + key;
+                        tmp[0] = (tmp[0]-32) + key;
                         fprintf(fo, "%c", tmp[0]);
                     }
                 } else {                               //accounts for non-letter characters
@@ -45,13 +45,13 @@ int main() {
         case 2: printf("Encrypting with substitution cipher using key: %d\n", key); 
             break;
         case 3: printf("Decrypting rotation cipher text using key: %d\n", key); 
-            while (!feof(fp)) { //fully functioning rotation cipher dycripter
+            while (!feof(fp)) { //fully functioning rotation cipher decryptor
                 char tmp[10000] = {0};
                 fscanf(fp, "%c", &tmp[0]);
                 int n = tmp[0];
                 if (n > 64 && n < 91) {                //checks for capital letters
                     if (n - key < 65) {                //if looping occurs
-                        tmp[0] = tmp[0] - (key-26);
+                        tmp[0] = tmp[0] + (26-key);
                         fprintf(fo, "%c", tmp[0]);
                     } else {                           // if no looping occurs
                         tmp[0] = tmp[0] - key;
@@ -59,10 +59,10 @@ int main() {
                     }
                 } else if (n > 96 && n < 123){         //checks for lower case letters
                     if (n - key < 97) {               // if looping occurs
-                        tmp[0] = tmp[0] - (key-26);
+                        tmp[0] = (tmp[0]-32) + (26-key);
                         fprintf(fo, "%c", tmp[0]);
                     } else {                           // if no looping occurs
-                        tmp[0] = tmp[0] - key;
+                        tmp[0] = (tmp[0]-32) - key;
                         fprintf(fo, "%c", tmp[0]);
                     }
                 } else {                               //accounts for non-letter characters
