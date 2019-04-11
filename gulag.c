@@ -10,6 +10,7 @@ int main() {
     int key = 0;
     char hash = 35;
     char subKey[25] = {0};
+    char realAlpha[26] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
     //fscanf(fp, "%d %c %d", &task, &hash, &key);        //reading instructions/key
     
     fscanf(fp, "%d", &task);
@@ -58,7 +59,7 @@ int main() {
             } 
             break;
         case 2: printf("Encrypting with substitution cipher using alphabet key:\n%s\n", subKey);
-            while(!feof(fp)) {                         //fully functioning substitution cipher (Alphabet key must be CAPS)
+            while(!feof(fp)) {                         //fully functioning substitution cipher (Alphabet key must be CAPS for assessment reasons the code works fine with lower case though)
                 char tmp[1] = {0};
                 fscanf(fp, "%c", & tmp[0]);
                 int n = tmp[0];
@@ -99,7 +100,24 @@ int main() {
             }
             break; 
         case 4: printf("Decrypting substitution cipher text using alphabet key:\n%s\n", subKey); 
-            
+            while(!feof(fp)) {                         //broken pls fix
+                char tmp[100] = {0};
+                fscanf(fp, "%c", &tmp[0]);
+                int n = tmp[0];
+                if (n > 64 && n < 91) {                //checks for capital letters
+                    n = n - 65;
+                    n = subKey[n];
+                    n = n - 65;
+                    tmp[0] = realAlpha[n];
+                } else if (n > 96 && n < 123) {        //checks for lower case letters
+                    n = n - 96;
+                    n = subKey[n];
+                    n = n - 64;
+                    tmp[0] = realAlpha[n];
+                }
+                fprintf(fo, "%c", tmp[0]);
+                printf("%c", tmp[0]);
+            }
             break;
         default: printf("Unkown command %d", task);
     }
