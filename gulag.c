@@ -10,25 +10,22 @@ int main() {
     int key = 0;
     char hash = 35;
     char subKey[25] = {0};
-    char realAlpha[26] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+    char realAlpha[26] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
     //fscanf(fp, "%d %c %d", &task, &hash, &key);        //reading instructions/key
     
     fscanf(fp, "%d", &task);
-    if (task == 1 || task == 3) {
+    if (task == 1 || task == 3 || task == 5) {
         fscanf(fp, "%c %d", &hash, &key); 
     } else if (task == 2 || task == 4) {
         int count = 0;
         while (count < 28) {
             fscanf(fp, "%c", &subKey[count]);
             count++;
-        }        
+        }
     } else {
         printf ("why are you like this?");
     }
 
-    
-    
-    
     
     
     printf("%d %c%d\n", task, hash, key);             //debug code; printing instructions
@@ -100,27 +97,39 @@ int main() {
             }
             break; 
         case 4: printf("Decrypting substitution cipher text using alphabet key:\n%s\n", subKey); 
-            while(!feof(fp)) {                         //broken pls fix
-                char tmp[100] = {0};
+            while (!feof(fp)) {                        //fully functioning rotation cipher text
+                char tmp[1] = {0};
                 fscanf(fp, "%c", &tmp[0]);
-                int n = tmp[0];
-                if (n > 64 && n < 91) {                //checks for capital letters
-                    n = n - 65;
-                    n = subKey[n];
-                    n = n - 65;
-                    tmp[0] = realAlpha[n];
-                } else if (n > 96 && n < 123) {        //checks for lower case letters
-                    n = n - 96;
-                    n = subKey[n];
-                    n = n - 64;
-                    tmp[0] = realAlpha[n];
+                int count = 0;
+                while (count < 26) {                   //checks the current encrypted character for its possition (0-25) in the given alphabet key
+                    if (tmp[0] == subKey[count+2]) {   //when the code finds a match it picks out which letter is in the same position on a real alphabet (realAlpha), count+2 is there because it saved the subKey weirdly
+                        tmp[0] = realAlpha[count];
+                        break;
+                    }
+                    ++count;
                 }
                 fprintf(fo, "%c", tmp[0]);
                 printf("%c", tmp[0]);
             }
             break;
+        case 5: printf("Brute forcing rotation cipher text:\n");
+            char tmp1[100000] = {0};
+            int count = 0;
+            while (!feof(fp)){
+                fscanf(fp, "%c", &tmp1[count]);
+                ++count;
+            }
+            
+            
+            
+            break;
+        case 6: printf("Brute forcing substitution cipher text:\n");
+            
+            
+            break;
         default: printf("Unkown command %d", task);
     }
+    
     
     
     fclose(fp);
