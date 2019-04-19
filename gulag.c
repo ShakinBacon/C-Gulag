@@ -1,20 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+
 int main() {
     FILE *fp;
     FILE *fo;
     fp = fopen("input", "r");   //opens input file
     fo = fopen("output", "w");  //opens output file
     int task;
-    int key = 0;
+    int key = 1;
     char hash = 35;
     char subKey[25] = {0};
+    char tmp1[1000] = {0};
     char realAlpha[26] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
-    //fscanf(fp, "%d %c %d", &task, &hash, &key);        //reading instructions/key
     
     fscanf(fp, "%d", &task);
-    if (task == 1 || task == 3 || task == 5) {
+    if (task == 1 || task == 3) {               //This "if" statement group is used to scan the file header for its instructions, and scan them into appropriate variables
         fscanf(fp, "%c %d", &hash, &key); 
     } else if (task == 2 || task == 4) {
         int count = 0;
@@ -23,13 +25,17 @@ int main() {
             count++;
         }
     } else {
-        printf ("why are you like this?");
+        int count = 0;
+        while (!feof(fp)){
+            fscanf(fp, "%c", &tmp1[count]);
+            ++count;
+        }
     }
 
     
     
-    printf("%d %c%d\n", task, hash, key);             //debug code; printing instructions
-    switch (task) {                                    //detects and prints the selected task and key for user clarity
+    printf("%d %c%d\n", task, hash, key);         //debug code; printing instructions
+    switch (task) {                                    //detects and prints the selected task and key for user clarity, and directs the code to the correct encryption/decryption operation
         case 1: printf("Encrypting with rotation cipher using key: %c%d\n", hash, key); 
             while (!feof(fp)) {                        //fully functioning rotation cipher (key 0 >>> 25)
                 char tmp[1] = {0};
@@ -113,15 +119,43 @@ int main() {
             }
             break;
         case 5: printf("Brute forcing rotation cipher text:\n");
-            char tmp1[100000] = {0};
             int count = 0;
-            while (!feof(fp)){
-                fscanf(fp, "%c", &tmp1[count]);
-                ++count;
+            CYCLE: while (count < 1000) {                  //counts up to the possible limit of letters in tmp1, basically this makes sure every letter of cipher text is read
+                count = 0;
+                while (tmp1[count] != 0) {                 //copy pasted code from case 1 reused to rotate unknown text
+                    char tmp[1] = {0};
+                    tmp[0] = tmp1[count];
+                    int n = tmp[0];
+                    if (n > 64 && n < 91) {                //checks for capital letters
+                        if (key + n > 90) {                //if looping occurs
+                            tmp[0] = tmp[0] - (26-key);
+                        } else {                           // if no looping occurs
+                            tmp[0] = tmp[0] + key;
+                        }
+                        fprintf(fo, "%c", tmp[0]); 
+                    } else if (n > 96 && n < 123){         //checks for lower case letters
+                        if (n + key > 122) {               // if looping occurs
+                            tmp[0] = (tmp[0]-32) - (26-key);
+                        } else {                           // if no looping occurs
+                            tmp[0] = (tmp[0]-32) + key;
+                        }
+                        fprintf(fo, "%c", tmp[0]);
+                    } else {                               //accounts for non-letter characters
+                        fprintf(fo, "%c", tmp[0]);
+                    }    
+                    printf("%c", tmp[0]);
+                    ++count;
+                }
+                ++key;
+                
+                if (key < 27) {                            //loops if necessary to rotate the text
+                    printf("\n\n");
+                    fprintf(fo, "\n");
+                    goto CYCLE;                            //goto function sends the code back to the top of the while loop in case 5
+                } else {                                   //ends the cycle so as to not rotate the text too far
+                    break;
+                }
             }
-            
-            
-            
             break;
         case 6: printf("Brute forcing substitution cipher text:\n");
             
@@ -132,8 +166,9 @@ int main() {
     
     
     
-    fclose(fp);
-    fclose(fo);
+    fclose(fp);                                          //close input file
+    fclose(fo);                                          //close output file
+printf("done");
 return 0; 
 }
 
