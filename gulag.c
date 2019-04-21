@@ -156,7 +156,7 @@ int main() {
                 }
             }
             break;
-        case 6: printf("Brute forcing substitution cipher text, this may not be fully accurate:\n");
+        case 6: printf("Brute forcing substitution cipher text, this will not be fully accurate:\n");
             count = 0;
             int numOfLetters[26] = {0};                    //array to keep track of number of letters in laphabetical order
             while (tmp1[count] != 0) {                     //counts the numbers of letters in the cipher text and assigns them to appropriate positions in the above array
@@ -214,47 +214,241 @@ int main() {
             numOfLetters[count] = 0;
             
             
-            //duplicated code again to find third highest letter
             
-            largest = numOfLetters[0];
-            for(count = 0; count < 26; count++){            //'for' loop used to find the largest number in the alphabetical numOfLetters array
-                if (numOfLetters[count] > largest){
-                    largest = numOfLetters[count];
-                    
-                }
-            }
-            printf("\n%d\n", largest); //debug how many
-            
-            
-            for (count = 0; count < 25; ++count){          //deduces which letter there is the most of
-                if (numOfLetters[count] == largest) {
-                    numOfLetters[count] = 0;
-                    ++count;
-                    break;
-                }
-            }
-            int letter3 = count+64;
-            printf("\n%c\n", letter3); //debug what letter
-            numOfLetters[count] = 0;
-            
-            
+            /* This is a somewhat complicated to understnad task, it simply places the symbolds '{' and '}'
+            in place of the most common 2 letters E and T respectivley, knowing that the most common letters in english 
+            are E T in that order these symbols will be later replaced, but are now placeholders so as to not
+            confuse the code between the deciphered E T's and the encoded E T's representing other letters
+            */
             count = 0;
-            while (tmp1[count] != 0) {                     //this loop assigns the highest 3 occuring letters in the cipher text, the vlaues of E, T, and A, respectivley, as these are the highest occuring letters in the english language in that order
+            while (tmp1[count] != 0) {
                 if (tmp1[count] == letter){
-                    tmp1[count] = 69;
+                    tmp1[count] = 123;
                 } else if (tmp1[count] == letter2){
-                    tmp1[count] = 84;
-                } else if (tmp1[count] == letter3){
-                    tmp1[count] = 65;
+                    tmp1[count] = 125;
                 }
                 ++count;
             }
             
             
+            int letterH;
+            for(count = 0; tmp1[count] !=0; ++count){          //a sort of filter to find the pattern ' t*e ' and assume * is 'h' and that the word is 'the'
+                if (tmp1[count] == 32){
+                    if (tmp1[count+1] == 125){
+                        if (tmp1[count+3] == 123){
+                            if (tmp1[count+4] == 32){
+                                letterH = tmp1[count+2];
+                                printf("HERE: %c\n", letterH);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            //for same reasons as above, the decrpted letters H are given an arbotrary symbol, in this case '|' for H
+            for(count = 0; tmp1[count] !=0; ++count){
+                if (tmp1[count] == letterH){
+                    tmp1[count] = 124;
+                }
+            }
+            int letterA;
+            for (count = 0; tmp1[count] !=0; ++count){      //a filter to find the pattern ' th*t ' assume that * is 'a' and that the word is 'that'
+                if (tmp1[count] == 32){
+                    if (tmp1[count+1] == 125){
+                        if (tmp1[count+2] == 124){
+                            if (tmp1[count+4] == 125){
+                                if (tmp1[count+5] == 32){
+                                    letterA = tmp1[count+3];
+                                    break;
+                                }
+                            } 
+                        }
+                    }
+                }
+            }
+            
+            //agian substituting a newly decoded letter with an arbitrary symbol, in this case '~' for A
+            for(count = 0; tmp1[count] !=0; ++count){
+                if (tmp1[count] == letterA){
+                    tmp1[count] = 126;
+                }
+            }
             
             
             
-            printf("%s", tmp1); //debug full text
+            
+            
+            int letterR;
+            for (count = 0; tmp1[count] !=0; ++count){           //a filter to find the pattern ' the*e ' assume that * is 'r' and that the word is 'there'
+                if (tmp1[count] == 32){
+                    if (tmp1[count+1] == 125){
+                        if (tmp1[count+2] == 124){
+                            if (tmp1[count+3] == 123){
+                                if (tmp1[count+5] == 123){
+                                    if (tmp1[count+6] == 32){
+                                        letterR = tmp1[count+4];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            //agian substituting a newly decoded letter with an arbitrary symbol, in this case '!' for R
+            for(count = 0; tmp1[count] !=0; ++count){
+                if (tmp1[count] == letterR){
+                    tmp1[count] = 33;
+                }
+            }
+            
+            
+            int letterV;                                    //filter looking for ' ha*e ' assuming * is v and the word is have
+            for (count = 0; tmp1[count] !=0; ++count){
+                if (tmp1[count] == 32){
+                    if (tmp1[count+1] == 124){
+                        if (tmp1[count+2] == 126){
+                            if (tmp1[count+4] == 123){
+                                if (tmp1[count+5] == 32){
+                                    letterV = tmp1[count+3];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            //agian substituting a newly decoded letter with an arbitrary symbol, in this case '@' for V
+            for(count = 0; tmp1[count] !=0; ++count){
+                if (tmp1[count] == letterV){
+                    tmp1[count] = 64;
+                }
+            }
+            
+            
+            int letterI;                                //filter looking for ' *t ' assuming * is i and the word is it
+            for (count = 0; tmp1[count] !=0; ++count){
+                if (tmp1[count] == 32){
+                    if (tmp1[count+2] == 125){
+                        if (tmp1[count+3] == 32){
+                            letterI = tmp1[count+1];
+                        }
+                    }
+                }
+            }
+
+            //agian substituting a newly decoded letter with an arbitrary symbol, in this case '#' for I
+            for(count = 0; tmp1[count] !=0; ++count){
+                if (tmp1[count] == letterI){
+                    tmp1[count] = 35;
+                }
+            }
+            
+            
+            int letterO;                            //ilter looking for ' t* ' assuming * is o and the word is to
+            for (count = 0; tmp1[count] !=0; ++count){
+                if (tmp1[count] == 32){
+                    if (tmp1[count+1] == 125){
+                        if (tmp1[count+3] == 32)
+                        letterO = tmp1[count+2];
+                    }
+                }
+            }
+            
+            //agian substituting a newly decoded letter with an arbitrary symbol, in this case '$' for O
+            for(count = 0; tmp1[count] !=0; ++count){
+                if (tmp1[count] == letterO){
+                    tmp1[count] = 36;
+                }
+            }
+                
+            int letterN;                                //filter looking for ' *ot ' assuming * is n and the word is not
+            for (count = 0; tmp1[count] !=0; ++count){
+                if (tmp1[count] == 32){
+                    if (tmp1[count+2] == 36){
+                        if (tmp1[count+3] == 125){
+                            if (tmp1[count+4] == 32){
+                                letterN = tmp1[count+1];
+                            }
+                        }
+                    }
+                }
+            }
+            
+            //agian substituting a newly decoded letter with an arbitrary symbol, in this case '%' for N
+            for(count = 0; tmp1[count] !=0; ++count){
+                if (tmp1[count] == letterN){
+                    tmp1[count] = 37;
+                }
+            }
+            
+            int letterD;                                //filter looking for ' an* ' assuming * is d and the word is and
+            for (count = 0; tmp1[count] !=0; ++count){
+                if (tmp1[count] == 32){
+                    if (tmp1[count+1] == 126){
+                        if (tmp1[count+2] == 37){
+                            if (tmp1[count+4] == 32){
+                                letterD = tmp1[count+3];
+                            }
+                        }
+                    }
+                }
+            }
+            
+            //agian substituting a newly decoded letter with an arbitrary symbol, in this case '^' for D
+            for(count = 0; tmp1[count] !=0; ++count){
+                if (tmp1[count] == letterD){
+                    tmp1[count] = 94;
+                }
+            }
+            
+            
+            printf("%s\n", tmp1); //debug full text
+            
+            for(count = 0; tmp1[count] != 0; ++count){      //switch;case function in a loop to decypher the symbols decyphered by the filters
+                int yeet = tmp1[count];
+                switch(yeet){
+                    case 123:
+                        tmp1[count] = 69;
+                        break;
+                    case 125:
+                        tmp1[count] = 84;
+                        break;
+                    case 124:
+                        tmp1[count] = 72;
+                        break;
+                    case 126:
+                        tmp1[count] = 65;
+                        break;
+                    case 33:
+                        tmp1[count] = 82;
+                        break;
+                    case 64:
+                        tmp1[count] = 86;
+                        break;
+                    case 35:
+                        tmp1[count] = 73;
+                        break;
+                    case 36:
+                        tmp1[count] = 79;
+                        break;
+                    case 37:
+                        tmp1[count] = 78;
+                        break;
+                    case 94:
+                        tmp1[count] = 68;
+                        break;
+                    default:
+                        tmp1[count] = tmp1[count];
+                        break;
+                }
+            }
+            printf("\n%s", tmp1);
+            
+            
+            
+            
             break;
         default: printf("Unkown command %d", task);
     }
