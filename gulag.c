@@ -2,7 +2,6 @@
 #include <stdlib.h>
 
 
-
 int main() {
     FILE *fp;
     FILE *fo;
@@ -164,37 +163,92 @@ int main() {
                 int holdThis = tmp1[count];
                 if (holdThis > 64 && holdThis < 91) {    
                     holdThis = holdThis - 64;
-                    ++numOfLetters[holdThis];
+                    ++numOfLetters[holdThis-1];
                 }
                 ++count;
             }
-            int largest;
-            for (count = 0; count < 25; ++count){          //finds the highest number in the above array
-                if (numOfLetters[count] > numOfLetters[count+1]) {
+            
+            
+            int largest = numOfLetters[0];
+            for(count = 0; count < 26; count++){            //'for' loop used to find the largest number in the alphabetical numOfLetters array
+                if (numOfLetters[count] > largest){
                     largest = numOfLetters[count];
-                } else if (numOfLetters[count+1] > numOfLetters[count]) {
-                    largest = numOfLetters[count+1];
+                    
                 }
             }
-            printf("%d\n", largest); //debug highest number
+            printf("\n%d\n", largest); //debug how many
+            
+            
             for (count = 0; count < 25; ++count){          //deduces which letter there is the most of
                 if (numOfLetters[count] == largest) {
+                    numOfLetters[count] = 0;               //deletes the value of the largest letter, to allow the following code to locate the seccond highest letter
+                    ++count;
                     break;
                 }
             }
             int letter = count+64;
-            printf("%c\n", letter); //debug what letter
+            printf("\n%c\n", letter); //debug what letter
+            
+            
+            //Duplicated above code to find the seccond highest letter
+            
+            largest = numOfLetters[0];
+            for(count = 0; count < 26; count++){            //'for' loop used to find the largest number in the alphabetical numOfLetters array
+                if (numOfLetters[count] > largest){
+                    largest = numOfLetters[count];
+                    
+                }
+            }
+            printf("\n%d\n", largest); //debug how many
+            
+            
+            for (count = 0; count < 25; ++count){          //deduces which letter there is the most of
+                if (numOfLetters[count] == largest) {
+                    numOfLetters[count] = 0;               //deletes value of seccond highest letter, to allow following code to find third highest letter
+                    ++count;
+                    break;
+                }
+            }
+            int letter2 = count+64;
+            printf("\n%c\n", letter2); //debug what letter
+            numOfLetters[count] = 0;
+            
+            
+            //duplicated code again to find third highest letter
+            
+            largest = numOfLetters[0];
+            for(count = 0; count < 26; count++){            //'for' loop used to find the largest number in the alphabetical numOfLetters array
+                if (numOfLetters[count] > largest){
+                    largest = numOfLetters[count];
+                    
+                }
+            }
+            printf("\n%d\n", largest); //debug how many
+            
+            
+            for (count = 0; count < 25; ++count){          //deduces which letter there is the most of
+                if (numOfLetters[count] == largest) {
+                    numOfLetters[count] = 0;
+                    ++count;
+                    break;
+                }
+            }
+            int letter3 = count+64;
+            printf("\n%c\n", letter3); //debug what letter
+            numOfLetters[count] = 0;
+            
+            
             count = 0;
-            while (tmp1[count] != 0) {                     //assigns the most common letter the value of 69, ASCII for 'E', assuming this from its commonality in the english language
+            while (tmp1[count] != 0) {                     //this loop assigns the highest 3 occuring letters in the cipher text, the vlaues of E, T, and A, respectivley, as these are the highest occuring letters in the english language in that order
                 if (tmp1[count] == letter){
                     tmp1[count] = 69;
+                } else if (tmp1[count] == letter2){
+                    tmp1[count] = 84;
+                } else if (tmp1[count] == letter3){
+                    tmp1[count] = 65;
                 }
                 ++count;
             }
-            
-            
-            
-            
             
             
             
@@ -204,7 +258,6 @@ int main() {
             break;
         default: printf("Unkown command %d", task);
     }
-    
     
     
     fclose(fp);                                          //close input file
