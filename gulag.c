@@ -1,6 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+This code is designed to scan commands from the file header, which is to be structured as follows:
+line 1: number 1-6 indicating desired operation
+    1 - Encrypt with Rotarion
+    2 - Encrypt with Substitution
+    3 - Decrypt Rotation text (known key)
+    4 - Decrypt Substitution text (known key)
+    5 - Brute force Rotation text
+    6 - Brute force Substitution text
+
+line 2: The cipher key if required in the following format
+    Rotation cipher key is to be written:   #*number 1-25*
+    Substitution alphabet key is to be a set of 26 letters written in full caps i.e:  QWERTYUIOPASDFGHJKLZXCVBNM
+    If no key is required (operations 5 & 6) put line 3 contents on line 2 instead
+    
+line 3: The block of text which is to be encrypted or decrypted
+    The text must be written/pasted on a single line
+    If the text is encrypted letters meant for decryption, it must be fully capitalised
+    Otherwise there is no restriction on the contents of the text
+*/
 
 int main() {
     FILE *fp;
@@ -267,7 +287,7 @@ int main() {
                 }
             }
             
-            //agian substituting a newly decoded letter with an arbitrary symbol, in this case '~' for A
+            // substituting a newly decoded letter with an arbitrary symbol, in this case '~' for A
             for(count = 0; tmp1[count] !=0; ++count){
                 if (tmp1[count] == letterA){
                     tmp1[count] = 126;
@@ -295,7 +315,7 @@ int main() {
                 }
             }
 
-            //agian substituting a newly decoded letter with an arbitrary symbol, in this case '!' for R
+            // substituting a newly decoded letter with an arbitrary symbol, in this case '!' for R
             for(count = 0; tmp1[count] !=0; ++count){
                 if (tmp1[count] == letterR){
                     tmp1[count] = 33;
@@ -318,7 +338,7 @@ int main() {
                 }
             }
             
-            //agian substituting a newly decoded letter with an arbitrary symbol, in this case '@' for V
+            // substituting a newly decoded letter with an arbitrary symbol, in this case '@' for V
             for(count = 0; tmp1[count] !=0; ++count){
                 if (tmp1[count] == letterV){
                     tmp1[count] = 64;
@@ -337,7 +357,7 @@ int main() {
                 }
             }
 
-            //agian substituting a newly decoded letter with an arbitrary symbol, in this case '#' for I
+            // substituting a newly decoded letter with an arbitrary symbol, in this case '#' for I
             for(count = 0; tmp1[count] !=0; ++count){
                 if (tmp1[count] == letterI){
                     tmp1[count] = 35;
@@ -355,7 +375,7 @@ int main() {
                 }
             }
             
-            //agian substituting a newly decoded letter with an arbitrary symbol, in this case '$' for O
+            // substituting a newly decoded letter with an arbitrary symbol, in this case '$' for O
             for(count = 0; tmp1[count] !=0; ++count){
                 if (tmp1[count] == letterO){
                     tmp1[count] = 36;
@@ -375,7 +395,7 @@ int main() {
                 }
             }
             
-            //agian substituting a newly decoded letter with an arbitrary symbol, in this case '%' for N
+            // substituting a newly decoded letter with an arbitrary symbol, in this case '%' for N
             for(count = 0; tmp1[count] !=0; ++count){
                 if (tmp1[count] == letterN){
                     tmp1[count] = 37;
@@ -395,15 +415,44 @@ int main() {
                 }
             }
             
-            //agian substituting a newly decoded letter with an arbitrary symbol, in this case '^' for D
+            // substituting a newly decoded letter with an arbitrary symbol, in this case '^' for D
             for(count = 0; tmp1[count] !=0; ++count){
                 if (tmp1[count] == letterD){
                     tmp1[count] = 94;
                 }
             }
             
+            int letterS;                                //filter looking for ' *t'* ' assuming * is i and s and the word it's and
+            for (count = 0; tmp1[count] !=0; ++count){
+                if (tmp1[count] == 32){
+                    if (tmp1[count+2] == 125){
+                        if (tmp1[count+3] == 39){
+                            if (tmp1[count+5] == 32){
+                                letterI = tmp1[count+1];
+                                letterS = tmp1[count+4];
+                            }
+                            
+                        }
+                    }
+                }
+            }
             
-            //printf("%s\n", tmp1); //debug scrambled text
+            // substituting a newly decoded letter with an arbitrary symbol, in this case '#' for I
+            for(count = 0; tmp1[count] !=0; ++count){
+                if (tmp1[count] == letterI){
+                    tmp1[count] = 35;
+                }
+            }
+            
+            // substituting a newly decoded letter with an arbitrary symbol, in this case '&' for S
+            for(count = 0; tmp1[count] !=0; ++count){
+                if (tmp1[count] == letterS){
+                    tmp1[count] = 38;
+                }
+            }
+            
+            
+            //printf("\n%s\n", tmp1); //debug scrambled text
             
             for(count = 0; tmp1[count] != 0; ++count){      //switch;case function in a loop to decypher the symbols decyphered by the filters
                 int yeet = tmp1[count];
@@ -438,6 +487,8 @@ int main() {
                     case 94:
                         tmp1[count] = 68;
                         break;
+                    case 38:
+                        tmp1[count] = 83;
                     default:
                         tmp1[count] = tmp1[count];
                         break;
@@ -450,7 +501,7 @@ int main() {
             
             
             break;
-        default: printf("Unkown command %d", task);
+        default: printf("Unkown operation: %d", task);
     }
     
     
