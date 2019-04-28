@@ -495,7 +495,7 @@ int main() {
                     case 38:
                         tmp1[count] = 83;
                     default:
-                        tmp1[count] = tmp1[count];
+                        tmp1[count] = tmp1[count]; //ignores real special characters in the text, spaces and undeciphered characters
                         break;
                 }
             }
