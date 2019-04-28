@@ -442,6 +442,7 @@ int main() {
             }
             
             // substituting a newly decoded letter with an arbitrary symbol, in this case '#' for I
+            // this letter might not have been deciphered using the previous I filter code, if it is this will have no effect
             for(count = 0; tmp1[count] !=0; ++count){
                 if (tmp1[count] == letterI){
                     tmp1[count] = 35;
