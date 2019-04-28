@@ -460,7 +460,7 @@ int main() {
             
             //printf("\n%s\n", tmp1); //debug scrambled text
             
-            for(count = 0; tmp1[count] != 0; ++count){      //switch;case function in a loop to decypher the symbols decyphered by the filters
+            for(count = 0; tmp1[count] != 0; ++count){      //switch;case function in a loop to decipher the symbols deciphered by the filters into their appropriate letters
                 int yeet = tmp1[count];
                 switch(yeet){
                     case 123:
