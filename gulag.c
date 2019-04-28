@@ -235,10 +235,11 @@ int main() {
             
             
             
-            /* This is a somewhat complicated to understnad task, it simply places the symbolds '{' and '}'
+            /* This is a somewhat complicated to understnad analytical process, it simply places the symbolds '{' and '}'
             in place of the most common 2 letters E and T respectivley, knowing that the most common letters in english 
-            are E T in that order these symbols will be later replaced, but are now placeholders so as to not
-            confuse the code between the deciphered E T's and the encoded E T's representing other letters
+            are E & T in respectivley these symbols will be later replaced, but are now placeholders so as to not
+            confuse the code between the deciphered E T's and the encoded E T's representing other letters, if this is
+            not done the following filters will scramble the text beyond recognition
             */
             count = 0;
             while (tmp1[count] != 0) {
