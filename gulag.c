@@ -251,6 +251,10 @@ int main() {
             }
             
             
+            
+            /*The following groups of nested if's are used to find a pattern within the cipher text by detecting them as ascii values, 
+            when a pattern is successfully located using the 'filters' an unknown letter within is assumed based on the context of 
+            the surrounding letters/symbols*/
             int letterH;
             for(count = 0; tmp1[count] !=0; ++count){          //a sort of filter to find the pattern ' t*e ' and assume * is 'h' and that the word is 'the'
                 if (tmp1[count] == 32){
