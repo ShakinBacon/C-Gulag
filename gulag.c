@@ -15,7 +15,7 @@ int main() {
     char realAlpha[26] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
     
     fscanf(fp, "%d", &task);
-    if (task == 1 || task == 3) {               //This "if" statement group is used to scan the file header for its instructions, and scan them into appropriate variables
+    if (task == 1 || task == 3) {               //This "if" statement is used to scan the file header for its instructions, and scan them into appropriate variables
         fscanf(fp, "%c %d", &hash, &key); 
     } else if (task == 2 || task == 4) {
         int count = 0;
@@ -33,10 +33,10 @@ int main() {
 
     int count;
     
-    printf("%d %c%d\n", task, hash, key);         //debug code; printing instructions
+    //printf("%d %c%d\n", task, hash, key);         //debug code; printing instructions
     switch (task) {                                    //detects and prints the selected task and key for user clarity, and directs the code to the correct encryption/decryption operation
         case 1: printf("Encrypting with rotation cipher using key: %c%d\n", hash, key); 
-            while (!feof(fp)) {                        //fully functioning rotation cipher (key 0 >>> 25)
+            while (!feof(fp)) {                        //loop cycles through the input file until it detects no content, i.e. the final letter (key 0 >>> 25)
                 char tmp[1] = {0};
                 fscanf(fp, "%c", &tmp[0]);
                 int n = tmp[0];
@@ -61,7 +61,7 @@ int main() {
             } 
             break;
         case 2: printf("Encrypting with substitution cipher using alphabet key:\n%s\n", subKey);
-            while(!feof(fp)) {                         //fully functioning substitution cipher (Alphabet key must be CAPS for assessment reasons the code works fine with lower case though)
+            while(!feof(fp)) {                         //loop cycles through the input file until it detects no content, i.e. the final letter (Alphabet key must be CAPS for assessment reasons)
                 char tmp[1] = {0};
                 fscanf(fp, "%c", & tmp[0]);
                 int n = tmp[0];
@@ -77,7 +77,7 @@ int main() {
             }      
             break;
         case 3: printf("Decrypting rotation cipher text using key: %d\n", key); 
-            while (!feof(fp)) {                        //fully functioning rotation cipher decryptor
+            while (!feof(fp)) {                        //loop cycles through the input file until it detects no content, i.e. the final letter
                 char tmp[1] = {0};
                 fscanf(fp, "%c", &tmp[0]);
                 int n = tmp[0];
@@ -102,7 +102,7 @@ int main() {
             }
             break; 
         case 4: printf("Decrypting substitution cipher text using alphabet key:\n%s\n", subKey); 
-            while (!feof(fp)) {                        //fully functioning rotation cipher text
+            while (!feof(fp)) {                        //loop cycles through the input file until it detects no content, i.e. the final letter
                 char tmp[1] = {0};
                 fscanf(fp, "%c", &tmp[0]);
                 int count = 0;
@@ -176,7 +176,7 @@ int main() {
                     
                 }
             }
-            printf("\n%d\n", largest); //debug how many
+            //printf("\n%d\n", largest); //debug how many
             
             
             for (count = 0; count < 25; ++count){          //deduces which letter there is the most of
@@ -187,7 +187,7 @@ int main() {
                 }
             }
             int letter = count+64;
-            printf("\n%c\n", letter); //debug what letter
+            //printf("\n%c\n", letter); //debug what letter
             
             
             //Duplicated above code to find the seccond highest letter
@@ -199,7 +199,7 @@ int main() {
                     
                 }
             }
-            printf("\n%d\n", largest); //debug how many
+            //printf("\n%d\n", largest); //debug how many
             
             
             for (count = 0; count < 25; ++count){          //deduces which letter there is the most of
@@ -210,7 +210,7 @@ int main() {
                 }
             }
             int letter2 = count+64;
-            printf("\n%c\n", letter2); //debug what letter
+            //printf("\n%c\n", letter2); //debug what letter
             numOfLetters[count] = 0;
             
             
@@ -238,7 +238,6 @@ int main() {
                         if (tmp1[count+3] == 123){
                             if (tmp1[count+4] == 32){
                                 letterH = tmp1[count+2];
-                                printf("HERE: %c\n", letterH);
                                 break;
                             }
                         }
@@ -404,7 +403,7 @@ int main() {
             }
             
             
-            printf("%s\n", tmp1); //debug full text
+            //printf("%s\n", tmp1); //debug scrambled text
             
             for(count = 0; tmp1[count] != 0; ++count){      //switch;case function in a loop to decypher the symbols decyphered by the filters
                 int yeet = tmp1[count];
@@ -445,6 +444,7 @@ int main() {
                 }
             }
             printf("\n%s", tmp1);
+            fprintf(fo, "%s", tmp1);
             
             
             
@@ -456,7 +456,7 @@ int main() {
     
     fclose(fp);                                          //close input file
     fclose(fo);                                          //close output file
-printf("\n\ndone");         //debug end flag
+//printf("\n\ndone");         //debug end flag
 return 0; 
 }
 
