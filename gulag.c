@@ -269,7 +269,7 @@ int main() {
                 }
             }
             
-            //for same reasons as above, the decrpted letters H are given an arbotrary symbol, in this case '|' for H
+            //for same reasons as for E & T, the decrpted letter is given an arbitrary symbol, in this case '|' for H
             for(count = 0; tmp1[count] !=0; ++count){
                 if (tmp1[count] == letterH){
                     tmp1[count] = 124;
