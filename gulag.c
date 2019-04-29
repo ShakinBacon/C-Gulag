@@ -161,8 +161,10 @@ int main() {
                 }
                 ++key;
                 
-                
-                int the = 0;                            // a filter searching the tmp2 array for the word ' the ' acting as a way to find the correct deciphered phrase rahter than printing all 25 possible rotations of the unknown text
+                /*bellow is a set of 3 filters searching the tmp2 array for the words: ' the ' ' and ' that ', 
+                effectivley these are acting as a way to find the correct deciphered phrase rahter than 
+                printing all 25 possible rotations of the unknown text*/
+                int the = 0;                            
                 for (count = 0; tmp2[count] != 0; ++count){
                     if (tmp2[count] == 32){
                         if (tmp2[count+1] == 84){
@@ -177,15 +179,48 @@ int main() {
                     }
                 }
                 
+                int and = 0;
+                for (count = 0; tmp2[count] != 0; ++count){
+                    if (tmp2[count] == 32){
+                        if (tmp2[count+1] == 65){
+                            if (tmp2[count+2] == 78){
+                                if (tmp2[count+3] == 68){
+                                    if (tmp2[count+4] == 32){
+                                        and = 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
                 
-                if (the == 0) {                                //if the text is still encrypted the rotation continues
+                int that = 0;
+                for (count = 0; tmp2[count] != 0; ++count){
+                    if (tmp2[count] == 32){
+                        if (tmp2[count+1] == 84){
+                            if (tmp2[count+2] == 72){
+                                if (tmp2[count+3] == 65){
+                                    if (tmp2[count+4] == 84){
+                                        if (tmp2[count+5] == 32){
+                                            that = 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (the == 0 && and == 0 && that == 0) {                                //if the text is still encrypted the rotation continues
                     if (key < 27) {                            //loops if necessary to rotate the text
                         goto CYCLE;                            //goto function sends the code back to the top of the while loop in case 5
                     } else {                                   //ends the cycle so as to not rotate the text too far
                         break;
                     }
-                } else if (the == 1){                          //if the text is correct it is printed
+                } else if (the == 1 || and == 1 || that == 1){                          //if the text is correct it is printed
                     printf("\n%s", tmp2);
+                    fprintf(fo, "%s", tmp2);
                 }
 
             }
