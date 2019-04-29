@@ -349,9 +349,6 @@ int main() {
             }
             
             
-            
-            
-            
             int letterR;
             for (count = 0; tmp1[count] !=0; ++count){           //a filter to find the pattern ' the*e ' assume that * is 'r' and that the word is 'there'
                 if (tmp1[count] == 32){
@@ -510,7 +507,7 @@ int main() {
             //printf("\n%s\n", tmp1); //debug scrambled text
             
             for(count = 0; tmp1[count] != 0; ++count){      //switch;case function in a loop to decipher the symbols implemented by the filter functions into their appropriate letters
-                int yeet = tmp1[count];
+                int yeet = tmp1[count];                     //tmp1[count]'s ascii value is stored in an integer variable to be used in the switch;case function
                 switch(yeet){
                     case 123:
                         tmp1[count] = 69;
@@ -551,18 +548,13 @@ int main() {
             }
             printf("\n%s", tmp1);
             fprintf(fo, "%s", tmp1);
-            
-            
-            
-            
             break;
         default: printf("Unkown operation: %d ", task);
     }
-    
+
     
     fclose(fp);                                          //close input file
     fclose(fo);                                          //close output file
 //printf("\n\ndone");         //debug end flag
 return 0; 
 }
-
