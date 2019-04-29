@@ -139,41 +139,55 @@ int main() {
             break;
         case 5: printf("Brute forcing rotation cipher text:\n");
             count = 0;
+            char tmp2[1000] = {0};                         //array to save the cipher text to be reused
             CYCLE: while (count < 1000) {                  //counts up to the possible limit of letters in tmp1, basically this makes sure every letter of cipher text is read, also the CYCLE label is here for a later goto function to use
                 count = 0;
-                while (tmp1[count] != 0) {                 //copy pasted code from case 1 reused to rotate unknown text
+                while (tmp1[count] != 0) {                 //copy pasted code from case 1 restructured to rotate unknown text multile times
                     char tmp[1] = {0};
                     tmp[0] = tmp1[count];
                     int n = tmp[0];
-                    if (n > 64 && n < 91) {                //checks for capital letters
+                    if (n > 64 && n < 91) {                //checks for letters using ascii values
                         if (key + n > 90) {                //if looping occurs
                             tmp[0] = tmp[0] - (26-key);
-                        } else {                           // if no looping occurs
+                        } else {                           //if no looping occurs
                             tmp[0] = tmp[0] + key;
                         }
-                        fprintf(fo, "%c", tmp[0]); 
-                    } else if (n > 96 && n < 123){         //checks for lower case letters
-                        if (n + key > 122) {               // if looping occurs
-                            tmp[0] = (tmp[0]-32) - (26-key);
-                        } else {                           // if no looping occurs
-                            tmp[0] = (tmp[0]-32) + key;
-                        }
-                        fprintf(fo, "%c", tmp[0]);
+                        tmp2[count] = tmp[0];
                     } else {                               //accounts for non-letter characters
-                        fprintf(fo, "%c", tmp[0]);
+                        tmp2[count] = tmp[0];
                     }    
-                    printf("%c", tmp[0]);
+                    //printf("%c", tmp[0]);
                     ++count;
                 }
                 ++key;
                 
-                if (key < 27) {                            //loops if necessary to rotate the text
-                    printf("\n\n");
-                    fprintf(fo, "\n");
-                    goto CYCLE;                            //goto function sends the code back to the top of the while loop in case 5
-                } else {                                   //ends the cycle so as to not rotate the text too far
-                    break;
+                
+                int the = 0;                            // a filter searching the tmp2 array for the word ' the ' acting as a way to find the correct deciphered phrase rahter than printing all 25 possible rotations of the unknown text
+                for (count = 0; tmp2[count] != 0; ++count){
+                    if (tmp2[count] == 32){
+                        if (tmp2[count+1] == 84){
+                            if (tmp2[count+2] == 72){
+                                if (tmp2[count+3] == 69){
+                                    if (tmp2[count+4] == 32){
+                                        the = 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
+                
+                
+                if (the == 0) {                                //if the text is still encrypted the rotation continues
+                    if (key < 27) {                            //loops if necessary to rotate the text
+                        goto CYCLE;                            //goto function sends the code back to the top of the while loop in case 5
+                    } else {                                   //ends the cycle so as to not rotate the text too far
+                        break;
+                    }
+                } else if (the == 1){                          //if the text is correct it is printed
+                    printf("\n%s", tmp2);
+                }
+
             }
             break;
         case 6: printf("Brute forcing substitution cipher text, this will not be fully accurate:\n");
@@ -507,7 +521,7 @@ int main() {
             
             
             break;
-        default: printf("Unkown operation: %d", task);
+        default: printf("Unkown operation: %d ", task);
     }
     
     
